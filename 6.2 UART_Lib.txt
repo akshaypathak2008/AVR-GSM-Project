@@ -1,0 +1,42 @@
+
+
+	
+
+void UART_Init(void);
+//char USART_ReceivData();		
+void Send_Char(char);		
+voidSend_String(char*);	
+
+
+
+void UART_Init(void)	
+{
+	UCSRB |= (1 << RXEN) |(1 << TXEN) | (1 << RXCIE);	 
+	UCSRC |= (1 << URSEL)| (1 << UCSZ0) | (1 << UCSZ1);	
+	UBRRL = 51;//9600							
+	UBRRH = 0;//	
+}
+/*
+char UART_Receiv_Data()				
+{
+	while (!(UCSRA & (1 << RXC)));	
+	return(UDR);					
+}
+*/
+void Send_Char(char data)		
+{
+	UDR = data;						
+	while (!(UCSRA & (1<<UDRE)));		 
+}
+
+void Send_String(char *str)		
+{
+	int i=0;
+	while (str[i]!=0)
+	{
+		Send_Char(str[i]);			
+		i++;
+	}
+}
+
+
